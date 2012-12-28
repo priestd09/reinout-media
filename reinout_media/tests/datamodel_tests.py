@@ -23,15 +23,6 @@ class TestPhoto(unittest.TestCase):
         photo = datamodels.Photo(self.sample_photo_path)
         self.assertEquals(photo.path, self.sample_photo_path)
 
-    def test_relative_path(self):
-        photo = datamodels.Photo('/a/b/c.jpg', basepath='/a')
-        self.assertEquals(photo.relative_path, 'b/c.jpg')
-
-    def test_relative_path2(self):
-        # With no basepath set, return full path.
-        photo = datamodels.Photo('/a/b/c.jpg')
-        self.assertEquals(photo.relative_path, '/a/b/c.jpg')
-
     def test_name_from_filename(self):
         photo = datamodels.Photo(self.sample_photo_path)
         self.assertEquals(photo.name_from_filename,
@@ -62,8 +53,3 @@ class TestTree(unittest.TestCase):
         tree = datamodels.Tree(self.basepath)
         self.assertTrue(tree.photos[0].path.endswith(
                 SAMPLE_CHRISTMAS_CARD))
-
-    def test_relative_paths_available(self):
-        tree = datamodels.Tree(self.basepath)
-        photo = tree.photos[0]
-        self.assertEquals(photo.relative_path, SAMPLE_CHRISTMAS_CARD)

@@ -17,17 +17,8 @@ class Photo(object):
 
     """
 
-    def __init__(self, path=None, basepath=None):
+    def __init__(self, path=None):
         self.path = path
-        self.basepath = basepath
-
-    @property
-    def relative_path(self):
-        """Return relative path if we have a base path, full path otherwise.
-        """
-        if self.basepath is None:
-            return self.path
-        return os.path.relpath(self.path, self.basepath)
 
     @property
     def name_from_filename(self):
@@ -67,4 +58,4 @@ class Tree(object):
             # if not filename.endswith('.jpg'):
             #     continue
             full_filename = os.path.join(self.path, filename)
-            yield Photo(full_filename, basepath=self.path)
+            yield Photo(full_filename)
