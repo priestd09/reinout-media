@@ -33,3 +33,23 @@ class TestPhoto(unittest.TestCase):
         photo = datamodels.Photo(self.sample_photo_path)
         self.assertEquals(photo.name,
                           'Kerstkaart annie reinout 2012')
+
+
+class TestTree(unittest.TestCase):
+
+    def setUp(self):
+        self.basepath = pkg_resources.resource_filename(
+            'reinout_media.tests', 'testphotos')
+
+    def test_smoke(self):
+        tree = datamodels.Tree()
+        self.assertTrue(tree)
+
+    def test_init(self):
+        tree = datamodels.Tree(self.basepath)
+        self.assertEquals(tree.path, self.basepath)
+
+    def test_photo_loading(self):
+        tree = datamodels.Tree(self.basepath)
+        self.assertTrue(tree.photos[0].path.endswith(
+                SAMPLE_CHRISTMAS_CARD))
