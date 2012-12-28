@@ -1,10 +1,35 @@
+import os
+import pkg_resources
 import unittest
 
 from reinout_media import datamodels
 
 
+SAMPLE_CHRISTMAS_CARD = 'kerstkaart_annie_reinout_2012.jpg'
+
 class TestPhoto(unittest.TestCase):
+
+    def setUp(self):
+        self.basepath = pkg_resources.resource_filename(
+            'reinout_media.tests', 'testphotos')
+        self.sample_photo_path = os.path.join(self.basepath,
+                                              SAMPLE_CHRISTMAS_CARD)
 
     def test_smoke(self):
         photo = datamodels.Photo()
         self.assertTrue(photo)
+
+    def test_init(self):
+        photo = datamodels.Photo(self.sample_photo_path)
+        self.assertEquals(photo.path, self.sample_photo_path)
+
+    def test_name_from_filename(self):
+        photo = datamodels.Photo(self.sample_photo_path)
+        self.assertEquals(photo.name_from_filename,
+                          'Kerstkaart annie reinout 2012')
+
+    def test_name_with_only_filename(self):
+        # Without an explicit name, use the filename as name.
+        photo = datamodels.Photo(self.sample_photo_path)
+        self.assertEquals(photo.name,
+                          'Kerstkaart annie reinout 2012')
